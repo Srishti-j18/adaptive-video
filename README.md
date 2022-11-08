@@ -23,3 +23,9 @@ To run this experiment on CloudLab, instantiate the profile at
 and follow the instructions there.
 
 ### GENI instructions
+
+Follow the instructions at 
+
+[https://witestlab.poly.edu/blog/adaptive-video-reproducing/](https://witestlab.poly.edu/blog/adaptive-video-reproducing/)
+
+to run this experiment on GENI.
