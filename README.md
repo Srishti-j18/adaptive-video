@@ -6,7 +6,7 @@ It should take about 60-120 minutes to run this experiment.
 
 ### FABRIC instructions
 
-To run this experiment on FABRIC, in a bash shell in your FABRIC JupyterHub environment run
+To run this experiment on FABRIC, in a bash terminal in your FABRIC JupyterHub environment run
 
 ```
 git clone https://github.com/teaching-on-testbeds/adaptive-video.git
