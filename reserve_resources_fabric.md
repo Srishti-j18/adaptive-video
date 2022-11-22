@@ -8,21 +8,6 @@
 
 For this experiment, we will use three virtual machines, connected in a linear topology: a client, a router, and a server. In this section, you will reserve and configure these resources on FABRIC.
 
-To run this experiment on [FABRIC](https://fabric-testbed.net/), log on to the FABRIC portal and open the JupyterHub environment.
-
-:::
-
-::: {.cell .markdown}
-
-You will want to retrieve this set of notebooks in the FABRIC environment, if you're not already reading it there! In the JupyterHub environment, use File > New > Terminal to open a Bash shell. In that terminal, run
-
-
-```
-git clone https://github.com/teaching-on-testbeds/adaptive-video
-```
-
-to retrieve this repository. Then, open the `start_here_fabric.ipynb` notebook and continue following along there.
-
 :::
 
 
@@ -35,7 +20,7 @@ to retrieve this repository. Then, open the `start_here_fabric.ipynb` notebook a
 
 ::: {.cell .markdown}
 
-The following instructions assume you have already configured your FABRIC JupyterHub environment in a previous session, including creating the `fabric_rc` and `ssh_config` files, using the [example notebook](https://github.com/fabric-testbed/jupyter-examples/blob/master/fabric_examples/fablib_api/configure_environment/configure_environment.ipynb) provided by the FABRIC team. If you haven't, you should do that first - it's a prerequisite for this experiment.
+The following instructions assume you have already configured your JupyterHub environment in a previous session, including creating the `fabric_rc` and `ssh_config` files. If you haven't, you should do that first - it's a prerequisite for this experiment.
 
 :::
 
@@ -55,6 +40,26 @@ os.environ['FABRIC_BASTION_SSH_CONFIG_FILE']=os.environ['HOME']+'/work/fabric_co
 from fabrictestbed_extensions.fablib.fablib import FablibManager as fablib_manager
 fablib = fablib_manager()                     
 fablib.show_config()
+```
+:::
+
+
+
+::: {.cell .markdown}
+Make sure the private key file you will use to access resources has the appropriate permissions:
+
+:::
+
+::: {.cell .code}
+
+```python
+os.environ['FABRIC_SLICE_PRIVATE_KEY_FILE'] = fablib.get_default_slice_private_key_file()
+:::
+
+::: {.cell .code}
+```python
+%%bash 
+chmod 0600 "$FABRIC_SLICE_PRIVATE_KEY_FILE"
 ```
 :::
 
@@ -125,7 +130,7 @@ Re-run the cell to select a new random site until you find one with available re
 ```python
 import random
 SITE = random.choice(fablib.get_site_names())
-print(f"{fablib.show_site(site)}")
+print(f"{fablib.show_site(SITE)}")
 ```
 :::
 
@@ -227,7 +232,7 @@ The following cell will make sure that the FABRIC nodes can reach targets on the
 
 ::: {.cell .code}
 ```python
-for node in ["romeo", "juliet", "router"]"
+for node in ["romeo", "juliet", "router"]:
     slice.get_node(node).execute("sudo sed -i '1s/^/nameserver 2a01:4f9:c010:3f02::1\n/' /etc/resolv.conf")
     slice.get_node(node).execute('echo "127.0.0.1 $(hostname -s)" | sudo tee -a /etc/hosts')
 ```
