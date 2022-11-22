@@ -11,7 +11,7 @@ It should take about 60-120 minutes to run this experiment.
 
 * [Background](notebooks/background.ipynb)
 * [Reserve resources on FABRIC](notebooks/reserve_resources_fabric.ipynb)
-* [Setup the adaptive video experiment](notebooks/setup_adaptive_video.ipynb)
+* [Set up the adaptive video experiment](notebooks/setup_adaptive_video.ipynb)
 * [Execute the constant bit rate experiment](notebooks/exec_cbr.ipynb)
 * [Data analysis](notebooks/data_analysis_fabric.ipynb)
 * [Execute the constant bit rate experiment with interruption](notebooks/exec_interruption.ipynb)
