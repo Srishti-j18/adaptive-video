@@ -51,10 +51,11 @@ Make sure the private key file you will use to access resources has the appropri
 :::
 
 ::: {.cell .code}
-
 ```python
 os.environ['FABRIC_SLICE_PRIVATE_KEY_FILE'] = fablib.get_default_slice_private_key_file()
+```
 :::
+
 
 ::: {.cell .code}
 ```python
