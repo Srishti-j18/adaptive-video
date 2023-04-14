@@ -5,17 +5,6 @@
 
 After you have run the experiment, answer the following questions:
 
-* Question 1
-* Question 2
-
-
-:::
-
-::: {.cell .markdown}
-## Exercises
-
-After you have run the experiment, answer the following questions:
-
 -   In constant bit rate experiment, did you observe any buffering in
     any of the DASH policies? Explain.
 -   In constant bit rate with interruptions experiment, did you see any
@@ -62,9 +51,6 @@ bash rate-vary.sh ~/Dataset_1/Dataset/Ferry/Ferry5.csv 0.25
 
 -   What differences do you see in terms of different metrics by
     changing the scaling factor from 0.1 to 0.25 for each DASH policy?
-:::
 
-::: {.cell .code}
-``` python
-```
+
 :::
