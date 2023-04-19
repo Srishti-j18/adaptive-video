@@ -53,6 +53,7 @@ Make sure the private key file you will use to access resources has the appropri
 ::: {.cell .code}
 ```python
 os.environ['FABRIC_SLICE_PRIVATE_KEY_FILE'] = fablib.get_default_slice_private_key_file()
+os.environ['FABRIC_BASTION_PRIVATE_KEY_FILE'] = fablib.get_bastion_key_filename()
 ```
 :::
 
@@ -61,6 +62,7 @@ os.environ['FABRIC_SLICE_PRIVATE_KEY_FILE'] = fablib.get_default_slice_private_k
 ```python
 %%bash 
 chmod 0600 "$FABRIC_SLICE_PRIVATE_KEY_FILE"
+chmod 400 "$FABRIC_BASTION_PRIVATE_KEY_FILE"
 ```
 :::
 
@@ -234,7 +236,7 @@ The following cell will make sure that the FABRIC nodes can reach targets on the
 ::: {.cell .code}
 ```python
 for node in ["romeo", "juliet", "router"]:
-    slice.get_node(node).execute("sudo sed -i '1s/^/nameserver 2a01:4f9:c010:3f02::1\n/' /etc/resolv.conf")
+    slice.get_node(node).execute('sudo sed -i "1s/^/nameserver 2a01:4f9:c010:3f02::1\\n/" /etc/resolv.conf')
     slice.get_node(node).execute('echo "127.0.0.1 $(hostname -s)" | sudo tee -a /etc/hosts')
 ```
 :::
