@@ -9,7 +9,7 @@ It should take about 60-120 minutes to run this experiment.
 To run this experiment on FABRIC, in a bash terminal in your FABRIC JupyterHub environment run
 
 ```
-git clone https://github.com/teaching-on-testbeds/adaptive-video.git
+git clone --recurse-submodules https://github.com/teaching-on-testbeds/adaptive-video.git
 ```
 
 Then open the [start_here_fabric.ipynb](start_here_fabric.ipynb) notebook and follow along with the instructions there.
