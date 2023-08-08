@@ -155,6 +155,7 @@ wget https://raw.githubusercontent.com/teaching-on-testbeds/adaptive-video/main/
 ### Prepare the client
 
 Finally, we need to prepare the "romeo" host as a video client. Open an SSH session on "romeo", and run the commands in this section there.
+So 
 
 :::
 
@@ -169,7 +170,7 @@ Download the AStream DASH video client:
 
 ::: {.cell .markdown}
 ```bash
-git clone https://github.com/pari685/AStream
+git clone https://github.com/Srishti-j18/AStream.git
 ```
 :::
 
@@ -178,10 +179,31 @@ git clone https://github.com/pari685/AStream
 
 ::: {.cell .markdown}
 
-We must install Python2 to run the DASH video client, and we will also install the video encoding utility `ffmpeg` so that we can reconstruct the video later:
+The AStream DASH video client is compatible with both Python 2 and Python 3.
+
+#### Option1 (Python3):
+So, If we prefer to use Python3 as Python 3 is faster, and its syntax is more user-friendly,We must install Python3 to run the DASH video client, and we will also install the video encoding utility `ffmpeg` so that we can reconstruct the video later:
 
 :::
 
+
+::: {.cell .markdown}
+```bash
+sudo apt update
+sudo apt install -y python3 ffmpeg
+```
+:::
+
+
+
+::: {.cell .markdown}
+
+#### Option2 (Python2):
+Alternatively, If anyone would like to use Python2 for the experiments, follow these instructions:
+
+Install Python 2 and the video encoding utility ffmpeg:
+
+:::
 
 
 ::: {.cell .markdown}
@@ -195,6 +217,24 @@ sudo apt install -y python2 ffmpeg
 
 ::: {.cell .markdown}
 
-Now we are ready to run our experiments! We will run three experiments: one with a constant bit rate, one with a constant bit rate and an interruption in middle, and one with a varying bit rate using the NYC traces.
+Next, install pip for Python 2 and install the required six library:
+
+:::
+
+
+::: {.cell .markdown}
+```bash
+sudo apt update
+wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+sudo python2 get-pip.py
+pip2 install six
+```
+:::
+
+
+
+::: {.cell .markdown}
+
+Now we are ready to run our experiments! We will run four experiments: one with a constant bit rate, one with a constant bit rate and an interruption in middle,one with where comparing the policies (with constant bit rate and an interruption in middle)  and one with a varying bit rate using the NYC traces.
 
 :::
