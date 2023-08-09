@@ -16,7 +16,7 @@ bash rate-set.sh 1000Kbit
 Then, on the client ("romeo"), start the DASH player with the "basic" adaptation policy:
 
 ```bash
-python2 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
+python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
 ```
 
 Leave this running for a while. Then, on the "router", reduce the network data rate to 50 Kbits/second:
