@@ -179,10 +179,7 @@ git clone https://github.com/Srishti-j18/AStream.git
 
 ::: {.cell .markdown}
 
-The AStream DASH video client is compatible with both Python 2 and Python 3.
-
-#### Option1 (Python3):
-So, If we prefer to use Python3 as Python 3 is faster, and its syntax is more user-friendly,We must install Python3 to run the DASH video client, and we will also install the video encoding utility `ffmpeg` so that we can reconstruct the video later:
+We must install Python3 to run the DASH video client, and we will also install the video encoding utility `ffmpeg` so that we can reconstruct the video later:
 
 :::
 
@@ -193,44 +190,6 @@ sudo apt update
 sudo apt install -y python3 ffmpeg
 ```
 :::
-
-
-
-::: {.cell .markdown}
-
-#### Option2 (Python2):
-Alternatively, If anyone would like to use Python2 for the experiments, follow these instructions:
-
-Install Python 2 and the video encoding utility ffmpeg:
-
-:::
-
-
-::: {.cell .markdown}
-```bash
-sudo apt update
-sudo apt install -y python2 ffmpeg
-```
-:::
-
-
-
-::: {.cell .markdown}
-
-Next, install pip for Python 2 and install the required six library:
-
-:::
-
-
-::: {.cell .markdown}
-```bash
-sudo apt update
-wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
-sudo python2 get-pip.py
-pip2 install six
-```
-:::
-
 
 
 ::: {.cell .markdown}

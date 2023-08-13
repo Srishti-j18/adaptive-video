@@ -16,7 +16,6 @@ It should take about 60-120 minutes to run this experiment.
 * [Data analysis](notebooks/data_analysis_fabric.ipynb)
 * [Execute the constant bit rate experiment with interruption](notebooks/exec_interruption.ipynb)
 * [Execute Constant Bit Rate Experiment with Interruption and Policy Comparison](notebooks/exec_policy.ipynb)
-* [Data analysis for Policies](notebooks/data_analysis_fabric.ipynb)
 * [Execute the varying bit rate experiment (mobile user)](notebooks/exec_vary.ipynb)
 * [Exercises](notebooks/exercises.ipynb)
 * [Write your own adaptive video policy!](notebooks/go_further.ipynb)
