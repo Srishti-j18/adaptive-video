@@ -89,3 +89,33 @@ plt.xlabel("Time (s)");
 ```
 :::
 
+::: {.cell .markdown}
+
+also use the following cell to create a visualization. In the following plot, the line shows the buffer size of each segment as it is played back over time, and the colored background indicates whether the client is playing video (light cyan) or buffering (light pink).
+
+:::
+
+
+::: {.cell .code}
+
+```python
+import matplotlib.pyplot as plt
+import pandas as pd
+
+c = {'INITIAL_BUFFERING': 'violet', 'PLAY': 'lightcyan', 'BUFFERING': 'lightpink'}
+
+dash = pd.read_csv("/home/fabric/work/DASH_BUFFER_LOG.csv")
+dash = dash.loc[dash.CurrentPlaybackState.isin(c.keys() )]
+states = pd.DataFrame({'startState': dash.CurrentPlaybackState[0:-2].values, 'startTime': dash.EpochTime[0:-2].values,
+                        'endState':  dash.CurrentPlaybackState[1:-1].values, 'endTime':   dash.EpochTime[1:-1].values})
+
+
+for index, s in states.iterrows():
+  plt.axvspan(s['startTime'], s['endTime'],  color=c[s['startState']], alpha=1) 
+
+plt.plot(dash[dash.Action!="Writing"].EpochTime, dash[dash.Action!="Writing"].CurrentBufferSize, 'kx:')
+plt.title("Buffer");
+plt.xlabel("Time (s)");
+```
+:::
+
