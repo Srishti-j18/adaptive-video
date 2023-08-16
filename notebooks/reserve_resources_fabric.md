@@ -281,6 +281,47 @@ slice.get_node("romeo").ping_test('192.168.0.2')
 
 ::: {.cell .markdown}
 
+### Transfer video application to the client
+
+:::
+
+
+
+::: {.cell .markdown}
+
+In this experiment, we will work with a DASH video client-let's transfer it to the "romeo" node now:
+
+:::
+
+
+
+::: {.cell .code}
+
+```python
+!git submodule update --init
+```
+:::
+
+
+::: {.cell .code}
+
+```python
+slice.get_node("romeo").upload_directory('../AStream','~/')
+```
+:::
+
+
+
+::: {.cell .markdown}
+
+Later, if you want to modify the source code of the DASH video client (e.g. modify [the basic policy](../AStream/dist/client/adaptation/basic_dash2.py)), you can make your changes loacally and then repeat this section to transfer the modified code to the "romeo" node.
+
+:::
+
+
+
+::: {.cell .markdown}
+
 ### Get login details for your slice
 
 :::

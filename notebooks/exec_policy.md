@@ -1,4 +1,4 @@
-## Execute Constant Bit Rate Experiment with Interruption and Policy Comparison 
+## Compare adaptive video policies 
 
 For this section, you will need an SSH session on the "router" node and one on the "romeo" node.
 This section involves conducting a constant bit rate experiment with interruptions while comparing two adaptation policies: "Basic" and "Netflix." Both policies will be tested under identical bandwidth settings and time durations to facilitate a clear comparison.
