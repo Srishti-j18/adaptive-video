@@ -1,58 +1,35 @@
 ## Compare adaptive video policies 
 
 For this section, you will need an SSH session on the "router" node and one on the "romeo" node.
-This section involves conducting a constant bit rate experiment with interruptions while comparing two adaptation policies: "Basic" and "Netflix." Both policies will be tested under identical bandwidth settings and time durations to facilitate a clear comparison.
+
+As in the previous experiment, in this experiment we will use a constant bit rate, with a brief interruption. However, we will compare the way two video adaptation policies react to this interruption - we'll compare a *rate based policy* (`basic`) and a *buffer based policy* (`netflix`) under identical settings (similar "high" network rate, "low" data rate, similar duration of the "high" data rate before the interruption, and and similar duration of the "interruption").
 
 
-Imagine you're watching your favorite online video, and you want it to play smoothly without any pauses, right..? Several policies aim to minimize interruptions and ensure seamless playback. In this experiment, we will execute two policies and observe the differences between them.
+#### Rate-based vs. buffer-based policies
 
-#### Basic Policy (Rate Based):
+The basic rate adaptation policy (`basic`) chooses a video rate based on the observed download rate. It keeps track of the average download time for recent segments, and calculates a running average. 
 
-The basic policy for rate adaptation focuses on adjusting the streaming bitrate based on the observed download time and network conditions. It aims to strike a balance between higher video quality and smooth playback.
+If the download rate exceeds the current video rate by some threshold, it may increase the video rate. If the download rate is lower than the current video rate, it decreases the video rate to ensure smooth playback. 
 
-##### How it Works:
-It keeps track of the average download time for recent segments and calculates a running download rate based on recent segment sizes.
-If the download rate exceeds a certain threshold (defined as a factor times the current bitrate), it considers increasing the bitrate.
-If the download rate is significantly lower than the current bitrate, it decreases the bitrate to ensure smooth playback.
-The policy prefers small adjustments to the bitrate based on the observed network conditions.
+You can see the source code for the `basic` policy here:   [basic_dash2.py](../AStream/dist/client/adaptation/basic_dash2.py)
 
-##### What to Expect:
-When running the experiment with the basic policy, you can expect the bitrate to adjust modestly based on the network's ability to download segments. If the network quality is consistently good, the bitrate may gradually increase. If there are fluctuations in network speed, the policy will make careful adjustments to avoid playback disruptions.
+The buffer-based policy (`netflix`) adapts the video rate based on the current buffer occupancy, rather than the current download rate. When there are many segments already buffered, it can increase the video rate; if the buffer occupancy is low and the client is at risk of rebuffering, it must decrease the video rate.
 
+You can see the source code for the `netflix` policy here:   [netflix_dash.py](../AStream/dist/client/adaptation/netflix_dash.py). This policy is based on the paper:
 
-#### Netflix Policy (Buffer-Based):
+> Te-Yuan Huang, Ramesh Johari, and Nick McKeown. 2013. Downton abbey without the hiccups: buffer-based rate adaptation for HTTP video streaming. In Proceedings of the 2013 ACM SIGCOMM workshop on Future human-centric multimedia networking (FhMN '13). Association for Computing Machinery, New York, NY, USA, 9–14. https://doi.org/10.1145/2491172.2491179
 
-The Netflix policy, inspired by a buffer-based approach, adapts the streaming bitrate based on 
-the current buffer occupancy. It aims to maintain a stable buffer while providing the best possible video quality.
+The policy defines two buffer occupancy thresholds: reservoir (defaults to 10%) and cushion (defaults to 90%). If the buffer occupancy is below the reservoir threshold, it selects the minimum video rate to fill the buffer quickly. If the buffer is within the reservoir and cushion range, it selects a video rate using a rate map function that maps buffer occupancy to video rate according to some increasing function. If the buffer occupancy exceeds the cushion threshold, it selects the maximum video rate.
 
-Reservoir: Imagine you have a water tank that supplies water to your house. The "reservoir" in this context is like the water level at the bottom of the tank. It's the minimum amount of water that needs to be there at all times to ensure a steady and uninterrupted water supply. If the reservoir is too low, you might experience water interruptions.
-Similarly, in video streaming, the reservoir is the minimum amount of video content that must be stored in the buffer to ensure a smooth playback experience. It's like having a small reserve of video data to prevent any pauses or disruptions if there are temporary changes in network conditions.
+A brief explanation of the key variables in this policy follows:
 
-Cushion: Think of a cushion on a couch. It's a soft layer that provides comfort and support. The "cushion" in this context is like an extra layer of video content stored in the buffer above the reservoir level. It's there to give extra protection against sudden changes. Just as a cushion absorbs some impact, this cushion of video content absorbs any fluctuations in network performance.
-In video streaming, the cushion is an additional amount of video data stored in the buffer beyond the reservoir level. It's like having a padding of video content that helps maintain a consistent and uninterrupted playback experience, even when there are brief variations in network speed.
-
-So, in summary:
-Reservoir: The minimum amount of video content needed in the buffer for steady playback.
-Cushion: Extra video content above the reservoir level to absorb fluctuations and ensure uninterrupted viewing.
-These concepts work together to create a buffer-based adaptation approach that aims to provide a seamless video streaming experience regardless of minor changes in network conditions.
-
-##### How it Works:
-The policy defines different buffer occupancy thresholds: default reservoir (10%) and cushion (90%).
-If the buffer is below the reservoir threshold, it selects the minimum bitrate to fill the buffer quickly.
-If the buffer is within the reservoir and cushion range, it uses a linear function to adjust the bitrate based on the rate map, aiming for a smooth streaming experience.
-If the buffer exceeds the cushion threshold, it selects the maximum bitrate to utilize the available buffer space efficiently.
-
-##### What to Expect:
-Running the experiment with the Netflix policy, you can expect the policy to focus on maintaining a stable buffer. As the buffer fills up, the policy will gradually increase the bitrate to improve video quality. If the buffer is near total capacity, the policy may reduce the bitrate to avoid buffer underflow.
-
-##### Summary:
-In summary, the basic policy focuses on adapting the bitrate based on observed download rates to ensure a balance between smooth playback and video quality. The Netflix policy, on the other hand, takes a buffer-based approach, adjusting the bitrate to manage buffer occupancy while delivering the best viewing experience.
-
+* **Reservoir**: Imagine you have a water tank that supplies water to your house. The "reservoir" in this context is like the water level at the bottom of the tank. It's the minimum amount of water that needs to be there at all times to ensure a steady and uninterrupted water supply. If the reservoir is too low, you might experience water interruptions. Similarly, in video streaming, the reservoir is the minimum amount of video content that must be stored in the buffer to ensure a smooth playback experience. It's like having a small reserve of video data to prevent any pauses or disruptions if there are temporary changes in network conditions.
+* **Cushion**: Think of a cushion on a couch. It's a soft layer that provides comfort and support. The "cushion" in this context is like an extra layer of video content stored in the buffer above the reservoir level. It's there to give extra protection against sudden changes. Just as a cushion absorbs some impact, this cushion of video content absorbs any fluctuations in network performance. In video streaming, the cushion is an additional amount of video data stored in the buffer beyond the reservoir level. It's like having a padding of video content that helps maintain a consistent and uninterrupted playback experience, even when there are brief variations in network speed.
 
 
 Let's get started!
 
-### 1. Execute the experiment for the Basic Policy:
+### Execute the experiment for the rate based policy
 
 On the "router", set a constant bit rate of 5000 Kbits/second with 
 
@@ -66,13 +43,18 @@ Then, on the client ("romeo"), start the DASH player with the "basic" adaptation
 python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
 ```
 
- Let the DASH player run for 25 seconds. After this duration, on the "router" node, reduce the network data rate to 350 Kbits/second:
+ Let the DASH player run for 100 seconds. After this duration, on the "router" node, reduce the network data rate to 350 Kbits/second:
 
-```
+```bash
 bash rate-set.sh 350Kbit
 ```
-Allow the DASH player to run for the entire duration of 300 seconds.
-When the timer reaches 300 seconds, stop the video client on the "romeo" node by pressing Ctrl+C.
+After  175 second, restore the original data rate.
+
+```bash
+bash rate-set.sh 5000Kbit
+```
+
+Then, after 300 second, stop the video client on "romeo" with Ctrl+C.
 
 As before, the logs produced by the client will be located inside a directory named `ASTREAM_LOGS` in your home directory on the "romeo" node. Use 
 
@@ -106,7 +88,7 @@ Before moving the next step ,save the plotted graph of "video rate vs time" and 
 
 
 
-### 2. Execute the experiment for the Netflix Policy:
+### Execute the experiment for the buffer based policy
 
 On the "router", set a constant bit rate of 5000 Kbits/second with 
 
@@ -114,19 +96,24 @@ On the "router", set a constant bit rate of 5000 Kbits/second with
 bash rate-set.sh 5000Kbit
 ```
 
-Then, on the client ("romeo"), start the DASH player with the "Netflix" adaptation policy and start the timer along with:
+Then, on the client ("romeo"), start the DASH player with the "netflix" adaptation policy and start the timer along with:
 
 ```bash
 python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'netflix' -d
 ```
 
- Let the DASH player run for 25 seconds. After this duration, on the "router" node, reduce the network data rate to 350 Kbits/second:
+ Let the DASH player run for 100 seconds. After this duration, on the "router" node, reduce the network data rate to 350 Kbits/second:
 
-```
+```bash
 bash rate-set.sh 350Kbit
 ```
-Allow the DASH player to run for the entire duration of 300 seconds.
-When the timer reaches 300 seconds, stop the video client on the "romeo" node by pressing Ctrl+C.
+After  175 second, restore the original data rate.
+
+```bash
+bash rate-set.sh 5000Kbit
+```
+
+Then, after 300 second, stop the video client on "romeo" with Ctrl+C.
 
 As before, the logs produced by the client will be located inside a directory named `ASTREAM_LOGS` in your home directory on the "romeo" node. Use 
 

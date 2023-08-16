@@ -114,7 +114,7 @@ for index, s in states.iterrows():
   plt.axvspan(s['startTime'], s['endTime'],  color=c[s['startState']], alpha=1) 
 
 plt.plot(dash[dash.Action!="Writing"].EpochTime, dash[dash.Action!="Writing"].CurrentBufferSize, 'kx:')
-plt.title("Buffer");
+plt.title("Buffer(segments)");
 plt.xlabel("Time (s)");
 ```
 :::
