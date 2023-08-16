@@ -155,25 +155,8 @@ wget https://raw.githubusercontent.com/teaching-on-testbeds/adaptive-video/main/
 ### Prepare the client
 
 Finally, we need to prepare the "romeo" host as a video client. Open an SSH session on "romeo", and run the commands in this section there.
-So 
 
 :::
-
-
-::: {.cell .markdown}
-
-Download the AStream DASH video client:
-
-:::
-
-
-
-::: {.cell .markdown}
-```bash
-git clone https://github.com/Srishti-j18/AStream.git
-```
-:::
-
 
 
 
