@@ -146,18 +146,28 @@ You can now proceed to analyze the data obtained from the experiments for the "B
 
 ### Discussions
 
-Upon analyzing the video rate vs time and buffer vs time graphs for both the "Basic" and "Netflix" adaptation policies, along with the actual video playback, several key observations can be made.
+After analyzing the video rate vs. time and buffer vs. time graphs for both the "Basic" and "Netflix" adaptation policies, along with the actual video playback, several key observations can be made.
 
-* **Initial interruptions and video rate increase**: In the beginning of both videos, there are small interruptions, not exactly buffering, as the video rate increases strictly. 
+Both policies initially start with increasing video rates as the buffer needs to be filled quickly due to being empty. However, in the rate-based policy, the video rate increases more rapidly compared to the buffer-based policy. In the rate-based policy, once the video rate reaches its maximum value, the video runs smoothly without interruption. On the other hand, in the buffer-based policy, the video rate increases, but small interruptions (not exactly buffering) occur because the video rate has not yet reached its maximum.
 
-* **Mid-interruption behavior**: During the interruption phase, the behavior of the two policies becomes more apparent. In the rate based ("Basic") policy, you can observe a decrease in the video rate and buffering events. This is due to the policy's focus on adjusting the video rate based on the observed download rate. As the data rate is reduced, the policy responds by decreasing the video rate, leading to buffering. 
-Conversely, in the buffer-based policy ("Netflix"), there are no buffering events during the interruption. This is a direct result of the policy's adaptation strategy, which relies on the current buffer occupancy rather than the download rate. The buffer-based policy ensures that there is sufficient buffer to accommodate interruptions, leading to smooth and uninterrupted playback.
+During the interruption phase, the differences in behavior between the two policies become more apparent. In the rate-based ("Basic") policy, there is a noticeable decrease in the video rate and buffering events. This is attributed to the policy's focus on adjusting the video rate based on the observed download rate. As the data rate decreases, the policy responds by reducing the buffer occupancy, resulting in buffering. In contrast, the buffer-based ("Netflix") policy experiences no buffering events during interruptions. This is a direct consequence of the policy's adaptation strategy, which relies on the current buffer occupancy rather than the download rate. The buffer-based policy ensures sufficient buffer to accommodate interruptions, leading to smooth and uninterrupted playback.
 
-* **Buffer maintenance and video length**:
-A notable difference between the two policies is in the maintenance of buffer levels. In the "Basic" policy, the buffer does not consistently store enough video segments to cover the entire interruption period, leading to buffering. In contrast, the buffer-based policy maintains buffer occupancy effectively, resulting in uninterrupted video delivery. The video length of the buffer-based policy is equla to the original video duration i.e. 594 seconds, while the rate-based policy falls short due close to 324 seconds to its dynamic adjustments.It's important to highlight that the buffer-based policy's continuous effort to maintain buffer occupancy contributes to its ability to match the original video length. The buffer-based policy ensures that the video rate graph remains stable, even during interruptions, leading to a seamless video streaming experience. On the other hand, the rate-based policy's adaptive nature, coupled with buffering events, results in a shorter effective video length during interruptions.
+The buffer-based policy ("Netflix") maintains a consistently higher buffer level throughout the experiment, even during interruptions, where it decreases but not significantly. This is evident from the buffer occupancy graph, which generally remains above the buffer threshold level "reservoir".
 
-* **Buffer-based adaptation superiority**:
-From the observations, it is evident that the buffer-based adaptation policy outperforms the rate-based policy in handling interruptions and maintaining smooth playback. The buffer-based policy's focus on buffer occupancy enables it to provide a more seamless viewing experience even under varying network conditions. This comparison highlights the advantages of a buffer-based approach in delivering high-quality video streaming.
+Conversely, the rate-based policy ("Basic") exhibits fluctuations in buffer occupancy. It begins with a lower buffer level, and during interruptions, the buffer depletes rapidly, resulting in buffering events and drops in video rate.
+
+* **Video length**:
+Both policies were executed for a duration of 300 seconds, yet a notable difference exists in the effective video length delivered to the client.
+In the buffer-based policy, the delivered video length is closer to the original full video length (approximately 594 seconds), indicating more stable and continuous playback.
+
+Conversely, in the rate-based policy, the delivered video length slightly exceeds 300 seconds, highlighting that buffering events and reduced buffer size during interruptions led to incomplete video playback.
+
+
+
+
+
+
+
 
 
 
