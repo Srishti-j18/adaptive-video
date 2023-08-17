@@ -152,14 +152,11 @@ Both policies initially start with increasing video rates as the buffer needs to
 
 During the interruption phase, the differences in behavior between the two policies become more apparent. In the rate-based ("Basic") policy, there is a noticeable decrease in the video rate and buffering events. This is attributed to the policy's focus on adjusting the video rate based on the observed download rate. As the data rate decreases, the policy responds by reducing the buffer occupancy, resulting in buffering. In contrast, the buffer-based ("Netflix") policy experiences no buffering events during interruptions. This is a direct consequence of the policy's adaptation strategy, which relies on the current buffer occupancy rather than the download rate. The buffer-based policy ensures sufficient buffer to accommodate interruptions, leading to smooth and uninterrupted playback.
 
-The buffer-based policy ("Netflix") maintains a consistently higher buffer level throughout the experiment, even during interruptions, where it decreases but not significantly. This is evident from the buffer occupancy graph, which generally remains above the buffer threshold level "reservoir".
-
-Conversely, the rate-based policy ("Basic") exhibits fluctuations in buffer occupancy. It begins with a lower buffer level, and during interruptions, the buffer depletes rapidly, resulting in buffering events and drops in video rate.
+The buffer-based policy ("Netflix") maintains a consistently higher buffer level throughout the experiment, even during interruptions, where it decreases but not significantly. This is evident from the buffer occupancy graph, which generally remains above the buffer threshold level "reservoir".Conversely, the rate-based policy ("Basic") exhibits fluctuations in buffer occupancy. It begins with a lower buffer level, and during interruptions, the buffer depletes rapidly, resulting in buffering events and drops in video rate.
 
 **Video length**:
 Both policies were executed for a duration of 300 seconds, yet a notable difference exists in the effective video length delivered to the client.
-In the buffer-based policy, the delivered video length is closer to the original full video length (approximately 594 seconds), indicating more stable and continuous playback.
-Conversely, in the rate-based policy, the delivered video length slightly exceeds 300 seconds, highlighting that buffering events and reduced buffer size during interruptions led to incomplete video playback.
+In the buffer-based policy, the delivered video length is closer to the original full video length (approximately 594 seconds), indicating more stable and continuous playback.Conversely, in the rate-based policy, the delivered video length slightly exceeds 300 seconds, highlighting that buffering events and reduced buffer size during interruptions led to incomplete video playback.
 
 
 
