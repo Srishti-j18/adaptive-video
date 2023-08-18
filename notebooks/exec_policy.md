@@ -48,7 +48,7 @@ python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuck
 ```bash
 bash rate-set.sh 350Kbit
 ```
-After  175 second, restore the original data rate.
+After an additional 75 seconds (175 seconds total runtime so far), restore the original data rate.
 
 ```bash
 bash rate-set.sh 5000Kbit
@@ -82,9 +82,7 @@ ffmpeg -i  BigBuckBunny_tmp.mp4 -c copy ~/BigBuckBunny.mp4
 to combine the video segments into a `BigBuckBunny.mp4` file in your home directory.
 
 
-With these steps completed, you now have the log file for the "basic" policy experiment.You can repeat the data analysis steps as before.
-Before moving the next step ,save the plotted graph of "video rate vs time" and "buffer vs time" .So that you can compare the policies better.
- Similarly, we will proceed with the experiment for the "Netflix" policy.
+Repeat the data analysis steps as before. Save the figures and the reconstructed video for the rate based policy, so that after completing the experiment in the next section with the buffer based policy, you can compare their behavior.
 
 
 
@@ -107,7 +105,7 @@ python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuck
 ```bash
 bash rate-set.sh 350Kbit
 ```
-After  175 second, restore the original data rate.
+After an additional 75 seconds (175 seconds total runtime so far), restore the original data rate.
 
 ```bash
 bash rate-set.sh 5000Kbit
@@ -141,18 +139,18 @@ ffmpeg -i  BigBuckBunny_tmp.mp4 -c copy ~/BigBuckBunny.mp4
 to combine the video segments into a `BigBuckBunny.mp4` file in your home directory.
 
 
-You can now proceed to analyze the data obtained from the experiments for the "Basic" and "Netflix" adaptation policies. By comparing the video rate graphs and buffer graphs generated from these experiments, you will be able to observe the differences between the two policies.
+Repeat the data analysis steps as before. Save the figures and the reconstructed video for the buffer based policy, for comparison with the rate based policy in the previous section.
 
 
 ### Discussions
 
-After analyzing the video rate vs. time and buffer vs. time graphs for both the "Basic" and "Netflix" adaptation policies, along with the actual video playback, several key observations can be made.
+After analyzing the video rate vs. time and buffer vs. time graphs for both the (`basic`) and (`netflix`) adaptation policies, along with the actual video playback, several key observations can be made.
 
 Both policies initially start with increasing video rates as the buffer needs to be filled quickly due to being empty. However, in the rate-based policy, the video rate increases more rapidly compared to the buffer-based policy. In the rate-based policy, once the video rate reaches its maximum value, the video runs smoothly without interruption. On the other hand, in the buffer-based policy, the video rate increases, but small interruptions (not exactly buffering) occur because the video rate has not yet reached its maximum.
 
-During the interruption phase, the differences in behavior between the two policies become more apparent. In the rate-based ("Basic") policy, there is a noticeable decrease in the video rate and buffering events. This is attributed to the policy's focus on adjusting the video rate based on the observed download rate. As the data rate decreases, the policy responds by reducing the buffer occupancy, resulting in buffering. In contrast, the buffer-based ("Netflix") policy experiences no buffering events during interruptions. This is a direct consequence of the policy's adaptation strategy, which relies on the current buffer occupancy rather than the download rate. The buffer-based policy ensures sufficient buffer to accommodate interruptions, leading to smooth and uninterrupted playback.
+During the interruption phase, the differences in behavior between the two policies become more apparent. In the rate-based (`basic`) policy, there is a noticeable decrease in the video rate and buffering events. This is attributed to the policy's focus on adjusting the video rate based on the observed download rate. As the data rate decreases, the policy responds by reducing the buffer occupancy, resulting in buffering. In contrast, the buffer-based (`netflix`) policy experiences no buffering events during interruptions. This is a direct consequence of the policy's adaptation strategy, which relies on the current buffer occupancy rather than the download rate. The buffer-based policy ensures sufficient buffer to accommodate interruptions, leading to smooth and uninterrupted playback.
 
-The buffer-based policy ("Netflix") maintains a consistently higher buffer level throughout the experiment, even during interruptions, where it decreases but not significantly. This is evident from the buffer occupancy graph, which generally remains above the buffer threshold level "reservoir".Conversely, the rate-based policy ("Basic") exhibits fluctuations in buffer occupancy. It begins with a lower buffer level, and during interruptions, the buffer depletes rapidly, resulting in buffering events and drops in video rate.
+The buffer-based policy (`netflix`) maintains a consistently higher buffer level throughout the experiment, even during interruptions, where it decreases but not significantly. This is evident from the buffer occupancy graph, which generally remains above the buffer threshold level "reservoir".Conversely, the rate-based policy (`basic`) exhibits fluctuations in buffer occupancy. It begins with a lower buffer level, and during interruptions, the buffer depletes rapidly, resulting in buffering events and drops in video rate.
 
 **Video length**:
 Both policies were executed for a duration of 300 seconds, yet a notable difference exists in the effective video length delivered to the client.
