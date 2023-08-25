@@ -22,7 +22,7 @@ For some traces, the throughput is always more than enough to steam the video at
 While playing back a trace on the "router", on the client ("romeo"), start the DASH player with the "basic" adaptation policy:
 
 ```bash
-python2 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
+python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
 ```
 
 Leave this running for a while. Then, stop the video client on "romeo" with Ctrl+C.

@@ -15,7 +15,7 @@ Note: you can specify a data rate in Kbits/second using `Kbit` or in Mbits/secon
 Then, on the client ("romeo"), start the DASH player with the "basic" adaptation policy:
 
 ```bash
-python2 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
+python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
 ```
 
 (Note: you can alternatively try `netflix` or `sara` as the DASH policy.)
