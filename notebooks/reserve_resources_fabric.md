@@ -206,6 +206,7 @@ for node in slice.get_nodes():
         node.execute('echo "DNS=2a00:1098:2c::1" | sudo tee -a /etc/systemd/resolved.conf')
         node.execute('sudo service systemd-resolved restart')
         node.execute('echo "127.0.0.1 $(hostname -s)" | sudo tee -a /etc/hosts')
+        node.execute('sudo rm -f /etc/resolv.conf; sudo ln -sv /run/systemd/resolve/resolv.conf /etc/resolv.conf')
 ```
 :::
 

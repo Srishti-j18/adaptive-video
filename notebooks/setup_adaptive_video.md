@@ -177,6 +177,6 @@ sudo apt install -y python3 ffmpeg
 
 ::: {.cell .markdown}
 
-Now we are ready to run our experiments! We will run four experiments: one with a constant bit rate, one with a constant bit rate and an interruption in middle,one with where comparing the policies (with constant bit rate and an interruption in middle)  and one with a varying bit rate using the NYC traces.
+Now we are ready to run our experiments! We will run four experiments: one with a constant bit rate, one with a constant bit rate and an interruption in middle, one where we compare adaptive video policies under similar network conditions, and one with a varying bit rate using the NYC traces.
 
 :::
