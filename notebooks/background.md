@@ -63,23 +63,23 @@ Performing rate selection to balance rebuffer avoidance and quality optimization
 
 ### Specific policies in this implementation
 
-In this experiment, we will use the DASH implementation developed for the following paper:
+In this experiment, we will use an updated version of the DASH implementation developed for the following paper:
 
 > P. Juluri, V. Tamarapalli and D. Medhi, "SARA: Segment aware rate adaptation algorithm for dynamic adaptive streaming over HTTP," 2015 IEEE International Conference on Communication Workshop (ICCW), 2015, pp. 1765-1770, doi: 10.1109/ICCW.2015.7247436.
 
-which is available on [Github](https://github.com/pari685/AStream). It includes three DASH decision policies:
+which you can browse on [Github](https://github.com/teaching-on-testbeds/AStream). It includes three DASH decision policies:
 
-The "basic" policy selects the video rate that is one level lower than the current network data rate. You can see [the "basic" implementation here](https://github.com/pari685/AStream/blob/master/dist/client/adaptation/basic_dash2.py).
+The "basic" policy is a rate-based policy that tries to keep the video rate at or below the current network data rate. You can see [the "basic" implementation here](https://github.com/teaching-on-testbeds/AStream/blob/master/dist/client/adaptation/basic_dash2.py).
 
-The buffer-based rate adaptation ("Netflix") algorithm uses the estimated network data rate only during the initial startup phase. Otherwise, it makes quality decisions based on the buffer occupancy. It is based on the algorithm described in the following paper:
+The buffer-based rate adaptation ("netflix") algorithm uses the estimated network data rate only during the initial startup phase. Otherwise, it makes quality decisions based on the buffer occupancy, i.e. tring to avoid an empty buffer which would cause the video to freeze. It is based on the algorithm described in the following paper:
 
 > Te-Yuan Huang, Ramesh Johari, Nick McKeown, Matthew Trunnell, and Mark Watson. 2014. A buffer-based approach to rate adaptation: evidence from a large video streaming service. In Proceedings of the 2014 ACM conference on SIGCOMM (SIGCOMM '14). Association for Computing Machinery, New York, NY, USA, 187–198. DOI:https://doi.org/10.1145/2619239.2626296
 
-You can see [the "Netflix" implementation here](AStream/dist/client/adaptation/netflix_dash.py). 
+You can see [the "Netflix" implementation here](https://github.com/teaching-on-testbeds/AStream/blob/master/dist/client/adaptation/netflix_dash.py). 
 
 Finally, the segment-aware rate adaptation ("SARA") algorithm uses the actual size of the segment and data rate of the network to estimate the time it would take to download the next segment. Then, given the current buffer occupancy, it selects the best possible video quality while avoiding buffer starvation. It is described in 
 
 > P. Juluri, V. Tamarapalli and D. Medhi, "SARA: Segment aware rate adaptation algorithm for dynamic adaptive streaming over HTTP," 2015 IEEE International Conference on Communication Workshop (ICCW), 2015, pp. 1765-1770, doi: 10.1109/ICCW.2015.7247436.
 
-You can see [the "SARA" implementation here](AStream/dist/client/adaptation/weighted_dash.py).
+You can see [the "SARA" implementation here](https://github.com/teaching-on-testbeds/AStream/blob/master/dist/client/adaptation/weighted_dash.py).
 
