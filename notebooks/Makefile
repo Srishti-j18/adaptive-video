@@ -6,7 +6,8 @@ NBS += reserve_resources_fabric.ipynb
 RES_SNIPPETS := fabric-snippets/fab-config.md fabric-snippets/reserve-resources.md
 reserve_resources_fabric.ipynb: $(RES_SNIPPETS) exp_define_fabric.md
 	pandoc --wrap=none \
-                -i fabric-snippets/fab-config.md \
+                -i intro_reserve_fabric.md \
+				fabric-snippets/fab-config.md \
                 exp_define_fabric.md \
                 fabric-snippets/reserve-resources.md \
                 fabric-snippets/configure-resources.md \
