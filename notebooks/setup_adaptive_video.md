@@ -159,6 +159,17 @@ Finally, we need to prepare the "romeo" host as a video client. Open an SSH sess
 :::
 
 
+::: {.cell .markdown}
+Download the AStream DASH video client on the "client" node:
+:::
+
+
+::: {.cell .markdown}
+```
+git clone https://github.com/teaching-on-testbeds/AStream  
+```
+:::
+
 
 ::: {.cell .markdown}
 

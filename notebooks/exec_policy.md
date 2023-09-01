@@ -21,48 +21,54 @@ You can see the source code for the `netflix` policy here:   [netflix_dash.py](.
 
 The policy defines two buffer occupancy thresholds: reservoir (defaults to 10%) and cushion (defaults to 90%). If the buffer occupancy is below the reservoir threshold, it selects the minimum video rate to fill the buffer quickly. If the buffer is within the reservoir and cushion range, it selects a video rate using a rate map function that maps buffer occupancy to video rate according to some increasing function. If the buffer occupancy exceeds the cushion threshold, it selects the maximum video rate.
 
-A brief explanation of the key variables in this policy follows:
+The behavior of each policy is parameterized by the settings defined in the code base at: [config_dash.py](../AStream/dist/client/config_dash.py). 
 
-* **Reservoir**: Imagine you have a water tank that supplies water to your house. The "reservoir" in this context is like the water level at the bottom of the tank. It's the minimum amount of water that needs to be there at all times to ensure a steady and uninterrupted water supply. If the reservoir is too low, you might experience water interruptions. Similarly, in video streaming, the reservoir is the minimum amount of video content that must be stored in the buffer to ensure a smooth playback experience. It's like having a small reserve of video data to prevent any pauses or disruptions if there are temporary changes in network conditions.
-* **Cushion**: Think of a cushion on a couch. It's a soft layer that provides comfort and support. The "cushion" in this context is like an extra layer of video content stored in the buffer above the reservoir level. It's there to give extra protection against sudden changes. Just as a cushion absorbs some impact, this cushion of video content absorbs any fluctuations in network performance. In video streaming, the cushion is an additional amount of video data stored in the buffer beyond the reservoir level. It's like having a padding of video content that helps maintain a consistent and uninterrupted playback experience, even when there are brief variations in network speed.
+Key factors defined here for the rate based ("basic") policy include:
+
+* `BASIC_THRESHOLD` - the maximum number of segments to store in the buffer in the rate based ("basic") policy.
+* `BASIC_UPPER_THRESHOLD` - to avoid oscillations, in the rate based ("basic") policy, the video rate increases or decreases only if it is different from the download rate by at least this factor.
+* `BASIC_DELTA_COUNT` - the number of segments' download rate to include in the moving average of network download rate. The smaller this number, the more reactive the client is to (potentially transient!) changes in network rate.
 
 
-Let's get started!
+Key factors defined here for the buffer based ("netflix") policy include:
 
-### Execute the experiment for the rate based policy
+* `NETFLIX_RESERVOIR` - the value of the "reservoir" described above, as a fraction of total buffer size.
+* `NETFLIX_CUSHION` - the value of the "cushion" described above, as a fraction of total buffer size.
+* `NETFLIX_BUFFER_SIZE` - the maximum number of segments to store in the buffer in the buffer based ("netflix") policy.
+* `NETFLIX_INITIAL_BUFFER` and `NETFLIX_INITIAL_FACTOR` - these define the behavior of the policy in the initial stage, which is a bit different than the approach described above.
 
-On the "router", set a constant bit rate of 5000 Kbits/second with 
+#### Execute the experiment for the rate based policy
+
+On the "router", we will configure the following "sequence" of network rates - 
+
+* 1000 Kbits/second for 100 seconds
+* 350 Kbits/second for another 75 seconds
+* 2000 Kbits/second for another 125 seconds
+
+and while this is ongoing, we will run a DASH client with the rate based policy. After 300 seconds, we will stop the DASH client.
+
+To realize this sequence of network rates, on the router, run
 
 ```bash
-bash rate-set.sh 5000Kbit
-```
-
-Then, on the client ("romeo"), start the DASH player with the "basic" adaptation policy and start the timer along with:
-
-```bash
-python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
-```
-
- Let the DASH player run for 100 seconds. After this duration, on the "router" node, reduce the network data rate to 350 Kbits/second:
-
-```bash
+bash rate-set.sh 1000Kbit
+echo "Start the DASH client"
+sleep 100
 bash rate-set.sh 350Kbit
+sleep 75
+bash rate-set.sh 2000Kbit
+sleep 125
+echo "Stop the DASH client"
 ```
-After an additional 75 seconds (175 seconds total runtime so far), restore the original data rate.
+
+On the client ("romeo"), immediately start the DASH player with the "basic" adaptation policy:
 
 ```bash
-bash rate-set.sh 5000Kbit
+python3 ~/AStream/dist/client/dash_client.py -m http://juliet/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
 ```
 
-Then, after 300 second, stop the video client on "romeo" with Ctrl+C.
+Let the DASH player run for 300 seconds, then stop the video client on "romeo" with Ctrl+C.
 
-As before, the logs produced by the client will be located inside a directory named `ASTREAM_LOGS` in your home directory on the "romeo" node. Use 
-
-```bash
-ls ~/ASTREAM_LOGS
-```
-
-to find these. We will copy the file associated with _this_ experiment to `~/ASTREAM_LOGS/DASH_BUFFER_LOG_last.csv` with
+Copy the file associated with _this_ experiment to `~/ASTREAM_LOGS/DASH_BUFFER_LOG_last.csv` with
 
 
 ```bash
@@ -85,41 +91,32 @@ to combine the video segments into a `BigBuckBunny.mp4` file in your home direct
 Repeat the data analysis steps as before. Save the figures and the reconstructed video for the rate based policy, so that after completing the experiment in the next section with the buffer based policy, you can compare their behavior.
 
 
-
 ### Execute the experiment for the buffer based policy
 
-On the "router", set a constant bit rate of 5000 Kbits/second with 
+We will now repeat the same experiment for the buffer based policy. 
+
+On the router, run
 
 ```bash
-bash rate-set.sh 5000Kbit
-```
-
-Then, on the client ("romeo"), start the DASH player with the "netflix" adaptation policy and start the timer along with:
-
-```bash
-python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'netflix' -d
-```
-
- Let the DASH player run for 100 seconds. After this duration, on the "router" node, reduce the network data rate to 350 Kbits/second:
-
-```bash
+bash rate-set.sh 1000Kbit
+echo "Start the DASH client"
+sleep 100
 bash rate-set.sh 350Kbit
+sleep 75
+bash rate-set.sh 2000Kbit
+sleep 125
+echo "Stop the DASH client"
 ```
-After an additional 75 seconds (175 seconds total runtime so far), restore the original data rate.
+
+Then, on the client ("romeo"), start the DASH player with the "netflix" adaptation policy:
 
 ```bash
-bash rate-set.sh 5000Kbit
+python3 ~/AStream/dist/client/dash_client.py -m http://juliet/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'netflix' -d
 ```
 
-Then, after 300 second, stop the video client on "romeo" with Ctrl+C.
+Let the DASH player run for 300 seconds, then stop the video client on "romeo" with Ctrl+C.
 
-As before, the logs produced by the client will be located inside a directory named `ASTREAM_LOGS` in your home directory on the "romeo" node. Use 
-
-```bash
-ls ~/ASTREAM_LOGS
-```
-
-to find these. We will copy the file associated with _this_ experiment to `~/ASTREAM_LOGS/DASH_BUFFER_LOG_last.csv` with
+Copy the file associated with _this_ experiment to `~/ASTREAM_LOGS/DASH_BUFFER_LOG_last.csv` with
 
 
 ```bash
@@ -138,24 +135,7 @@ ffmpeg -i  BigBuckBunny_tmp.mp4 -c copy ~/BigBuckBunny.mp4
 
 to combine the video segments into a `BigBuckBunny.mp4` file in your home directory.
 
-
 Repeat the data analysis steps as before. Save the figures and the reconstructed video for the buffer based policy, for comparison with the rate based policy in the previous section.
-
-
-### Discussions
-
-After analyzing the video rate vs. time and buffer vs. time graphs for both the (`basic`) and (`netflix`) adaptation policies, along with the actual video playback, several key observations can be made.
-
-Both policies initially start with increasing video rates as the buffer needs to be filled quickly due to being empty. However, in the rate-based policy, the video rate increases more rapidly compared to the buffer-based policy. In the rate-based policy, once the video rate reaches its maximum value, the video runs smoothly without interruption. On the other hand, in the buffer-based policy, the video rate increases, but small interruptions (not exactly buffering) occur because the video rate has not yet reached its maximum.
-
-During the interruption phase, the differences in behavior between the two policies become more apparent. In the rate-based (`basic`) policy, there is a noticeable decrease in the video rate and buffering events. This is attributed to the policy's focus on adjusting the video rate based on the observed download rate. As the data rate decreases, the policy responds by reducing the buffer occupancy, resulting in buffering. In contrast, the buffer-based (`netflix`) policy experiences no buffering events during interruptions. This is a direct consequence of the policy's adaptation strategy, which relies on the current buffer occupancy rather than the download rate. The buffer-based policy ensures sufficient buffer to accommodate interruptions, leading to smooth and uninterrupted playback.
-
-The buffer-based policy (`netflix`) maintains a consistently higher buffer level throughout the experiment, even during interruptions, where it decreases but not significantly. This is evident from the buffer occupancy graph, which generally remains above the buffer threshold level "reservoir".Conversely, the rate-based policy (`basic`) exhibits fluctuations in buffer occupancy. It begins with a lower buffer level, and during interruptions, the buffer depletes rapidly, resulting in buffering events and drops in video rate.
-
-**Video length**:
-Both policies were executed for a duration of 300 seconds, yet a notable difference exists in the effective video length delivered to the client.
-In the buffer-based policy, the delivered video length is closer to the original full video length (approximately 594 seconds), indicating more stable and continuous playback.Conversely, in the rate-based policy, the delivered video length slightly exceeds 300 seconds, highlighting that buffering events and reduced buffer size during interruptions led to incomplete video playback.
-
 
 
 

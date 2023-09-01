@@ -15,10 +15,8 @@ Note: you can specify a data rate in Kbits/second using `Kbit` or in Mbits/secon
 Then, on the client ("romeo"), start the DASH player with the "basic" adaptation policy:
 
 ```bash
-python3 ~/AStream/dist/client/dash_client.py -m http://192.168.1.2/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
+python3 ~/AStream/dist/client/dash_client.py -m http://juliet/media/BigBuckBunny/4sec/BigBuckBunny_4s.mpd -p 'basic' -d
 ```
-
-(Note: you can alternatively try `netflix` or `sara` as the DASH policy.)
 
 Leave this running for a while. Then, you can interrupt the DASH client with Ctrl+C.
 
@@ -44,6 +42,7 @@ cd ~/TEMP_$suffix
 rm -f ~/BigBuckBunny.mp4 # if it exists
 cat BigBuckBunny_4s_init.mp4 $(ls -vx BigBuckBunny_*.m4s) > BigBuckBunny_tmp.mp4
 ffmpeg -i  BigBuckBunny_tmp.mp4 -c copy ~/BigBuckBunny.mp4
+cd ~
 ```
 
 to combine the video segments into a `BigBuckBunny.mp4` file in your home directory.
