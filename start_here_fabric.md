@@ -18,4 +18,3 @@ It should take about 60-120 minutes to run this experiment.
 * [Compare adaptive video policies](notebooks/exec_policy.ipynb)
 * [Execute the varying bit rate experiment (mobile user)](notebooks/exec_vary.ipynb)
 * [Modify the adaptive video policy!](notebooks/go_further.ipynb)
-* [Delete resources on FABRIC](notebooks/delete_fabric.ipynb)
