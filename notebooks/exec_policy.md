@@ -91,7 +91,7 @@ to combine the video segments into a `BigBuckBunny.mp4` file in your home direct
 Repeat the data analysis steps as before. Save the figures and the reconstructed video for the rate based policy, so that after completing the experiment in the next section with the buffer based policy, you can compare their behavior.
 
 
-### Execute the experiment for the buffer based policy
+#### Execute the experiment for the buffer based policy
 
 We will now repeat the same experiment for the buffer based policy. 
 
