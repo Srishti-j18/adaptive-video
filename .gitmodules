@@ -1,6 +1,6 @@
 [submodule "AStream"]
 	path = AStream
-	url = https://github.com/Srishti-j18/AStream.git
+	url = https://github.com/teaching-on-testbeds/AStream
 [submodule "notebooks/fabric-snippets"]
 	path = notebooks/fabric-snippets
 	url = https://github.com/teaching-on-testbeds/fabric-snippets
