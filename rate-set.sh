@@ -1,4 +1,5 @@
-iface=$(ifconfig | grep -B1 "inet 192.168.0.1" | head -n1 | cut -f1 -d:)
+addr=$(dig +short @127.0.0.53 romeo)
+iface=$(ip route get "$addr" | grep -oP "(?<=dev )[^ ]+")
 
 sudo tc qdisc del dev $iface root  
 sudo tc qdisc add dev $iface root handle 1: htb default 3  

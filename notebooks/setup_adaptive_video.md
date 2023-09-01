@@ -160,41 +160,34 @@ Finally, we need to prepare the "romeo" host as a video client. Open an SSH sess
 
 
 ::: {.cell .markdown}
-
-Download the AStream DASH video client:
-
+Download the AStream DASH video client on the "client" node:
 :::
 
 
-
 ::: {.cell .markdown}
-```bash
-git clone https://github.com/pari685/AStream
+```
+git clone https://github.com/teaching-on-testbeds/AStream  
 ```
 :::
 
 
-
-
 ::: {.cell .markdown}
 
-We must install Python2 to run the DASH video client, and we will also install the video encoding utility `ffmpeg` so that we can reconstruct the video later:
+We must install Python3 to run the DASH video client, and we will also install the video encoding utility `ffmpeg` so that we can reconstruct the video later:
 
 :::
-
 
 
 ::: {.cell .markdown}
 ```bash
 sudo apt update
-sudo apt install -y python2 ffmpeg
+sudo apt install -y python3 ffmpeg
 ```
 :::
 
 
-
 ::: {.cell .markdown}
 
-Now we are ready to run our experiments! We will run three experiments: one with a constant bit rate, one with a constant bit rate and an interruption in middle, and one with a varying bit rate using the NYC traces.
+Now we are ready to run our experiments! We will run four experiments: one with a constant bit rate, one with a constant bit rate and an interruption in middle, one where we compare adaptive video policies under similar network conditions, and one with a varying bit rate using the NYC traces.
 
 :::

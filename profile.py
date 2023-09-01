@@ -29,18 +29,18 @@ request = pc.makeRequestRSpec()
 # Node client
 node_client = request.XenVM('romeo')
 node_client.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU20-64-STD'
-iface0 = node_client.addInterface('interface-0', pg.IPv4Address('192.168.0.2','255.255.255.0'))
+iface0 = node_client.addInterface('interface-0', pg.IPv4Address('10.10.1.100','255.255.255.0'))
 
 # Node router
 node_router = request.XenVM('router')
 node_router.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU20-64-STD'
-iface1 = node_router.addInterface('interface-1', pg.IPv4Address('192.168.0.1','255.255.255.0'))
-iface2 = node_router.addInterface('interface-2', pg.IPv4Address('192.168.1.1','255.255.255.0'))
+iface1 = node_router.addInterface('interface-1', pg.IPv4Address('10.10.1.10','255.255.255.0'))
+iface2 = node_router.addInterface('interface-2', pg.IPv4Address('10.10.2.10','255.255.255.0'))
 
 # Node server
 node_server = request.XenVM('juliet')
 node_server.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU20-64-STD'
-iface3 = node_server.addInterface('interface-3', pg.IPv4Address('192.168.1.2','255.255.255.0'))
+iface3 = node_server.addInterface('interface-3', pg.IPv4Address('10.10.2.100','255.255.255.0'))
 
 # Link link-0
 link_0 = request.Link('link-0')
