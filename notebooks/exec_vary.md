@@ -17,7 +17,7 @@ The following figure shows the "dynamics" (throughput in Mbps against time) for 
 
 ![](https://witestlab.poly.edu/blog/content/images/2022/04/nyc-traces.png)
 
-For some traces, the throughput is always more than enough to steam the video at the highest quality level. For the traces where the throughput is *not* sufficient to stream continuously at the highest quality level, a good decision policy should still be able to smooth over the variation in network quality and deliver high quality video without rebuffering.
+For some traces, the throughput is always more than enough to stream the video at the highest quality level. For the traces where the throughput is *not* sufficient to stream continuously at the highest quality level, a good decision policy should still be able to smooth over the variation in network quality and deliver high quality video without rebuffering.
 
 While playing back a trace on the "router", on the client ("romeo"), start the DASH player with the "basic" adaptation policy:
 
